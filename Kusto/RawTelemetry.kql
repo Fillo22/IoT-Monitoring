@@ -1,0 +1,19 @@
+.create table RawTelemetry ( 
+PartitionKey:string,
+SerialNumber:string, 
+MessageType:string,
+Date:datetime, 
+Data:dynamic, 
+Message:dynamic  )
+
+.create-or-alter table RawTelemetry ingestion json mapping "RawTelemetryMapping"
+'['
+'    { "column" : "PartitionKey", "datatype" : "string", "Properties":{"Path":"$.pk"}},'
+'    { "column" : "SerialNumber", "datatype" : "string", "Properties":{"Path":"$.sn"}},'
+'    { "column" : "MessageType", "datatype" : "string", "Properties":{"Path":"$.mt"}},'
+'    { "column" : "Date", "datatype" : "datetime", "Properties":{"Path":"$.date"}},'
+'    { "column" : "Data", "datatype" : "dynamic", "Properties":{"Path":"$.data"}},'
+'    { "column" : "Message", "datatype" : "dynamic", "Properties":{"Path":"$"}}'
+']'
+
+.alter table RawTelemetry policy streamingingestion enable
