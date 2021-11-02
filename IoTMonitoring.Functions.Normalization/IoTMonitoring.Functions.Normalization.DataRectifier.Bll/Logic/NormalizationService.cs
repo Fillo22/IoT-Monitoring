@@ -20,7 +20,7 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
         public JObject Normalize(JObject input)
         {
             JObject output = new();
-            output.Add("date", DateTime.UtcNow.Ticks);
+            output.Add("date", DateTime.UtcNow);
             output.Add("data", input);
             return output;
         }

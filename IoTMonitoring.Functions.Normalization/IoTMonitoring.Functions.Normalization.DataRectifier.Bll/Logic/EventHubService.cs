@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 
 namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
 {
@@ -19,6 +20,7 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
         private readonly ILogger<EventHubService> _Logger;
         private EventHubProducerClient _ProducerClient;
         private Dictionary<string, EventDataBatch> _EventBatches = new();
+        private System.Timers.Timer _Timer = new(60000);
 
         public EventHubService(IOptions<EventHubServiceOptions> options, ILogger<EventHubService> logger)
         {
@@ -27,8 +29,9 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
             Init();
         }
 
-        public async Task SendMessageAsync(string partitionKey, JObject message)
+        public async Task SendMessageAsync(string partitionKey, JObject message, CancellationToken token)
         {
+
             if(!_EventBatches.Where(x => x.Key == partitionKey).Any())
             {
                 _EventBatches.Add(partitionKey, await _ProducerClient.CreateBatchAsync(new CreateBatchOptions() { PartitionKey = partitionKey }));
@@ -44,13 +47,40 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
                 await _ProducerClient.SendAsync(keyValuePair.Value);
                 _EventBatches.Remove(keyValuePair.Key);
             }
+
+            if (token.IsCancellationRequested)
+            {
+                _Logger.LogWarning("cancellation requested!");
+                foreach (var keyValuePair in _EventBatches)
+                {
+                    await _ProducerClient.SendAsync(keyValuePair.Value);
+                    _EventBatches.Remove(keyValuePair.Key);
+                }
+                await CloseClient();
+            }
             
+        }
+
+        private async void ClearBacklog(Object source, ElapsedEventArgs e)
+        {
+            _Logger.LogWarning("Clearing backlog...");
+            foreach (var keyValuePair in _EventBatches)
+            {
+                await _ProducerClient.SendAsync(keyValuePair.Value);
+                _EventBatches.Remove(keyValuePair.Key);
+            }
         }
 
         private void Init()
         {
-            _ProducerClient = new EventHubProducerClient(_Options.ConnectionString, _Options.EventHubName); 
+            _ProducerClient = new EventHubProducerClient(_Options.ConnectionString, _Options.EventHubName);
+            _Timer.Elapsed += ClearBacklog;
+            _Timer.AutoReset = true;
+            _Timer.Enabled = true;
         }
+
+        private async Task CloseClient()
+            => await _ProducerClient.CloseAsync();
 
         //@TODO: add checkpoint at 10 messages
     }
