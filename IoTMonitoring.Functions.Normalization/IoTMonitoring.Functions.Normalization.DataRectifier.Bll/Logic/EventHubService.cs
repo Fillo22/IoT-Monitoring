@@ -39,7 +39,7 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
                 _Logger.LogError("can't add message to EventBatch");
             };
 
-            foreach (var keyValuePair in _EventBatches.Where(x => x.Value.Count > _Options.BatchLimit))
+            foreach (var keyValuePair in _EventBatches.Where(x => x.Value.Count >= _Options.BatchLimit))
             {
                 await _ProducerClient.SendAsync(keyValuePair.Value);
                 _EventBatches.Remove(keyValuePair.Key);
