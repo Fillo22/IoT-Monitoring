@@ -1,0 +1,124 @@
+[
+    {
+        "id": "9e0862f4.a82c9",
+        "type": "tab",
+        "label": "Azure IoT Edge",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "60a82287.44320c",
+        "type": "moduleinput",
+        "z": "9e0862f4.a82c9",
+        "client": "ad0fb0dd.c701d",
+        "input": "input1",
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "e581a7a2.8c8f78",
+                "c3effbe1.9672e8"
+            ]
+        ]
+    },
+    {
+        "id": "c3effbe1.9672e8",
+        "type": "function",
+        "z": "9e0862f4.a82c9",
+        "name": "Enricher",
+        "func": "//type checking\nvar getType = function (elem) {\n    return Object.prototype.toString.call(elem).slice(8, -1);\n};\n\nfunction appendLeadingZeroes(n,digits){\n  var s=\"\";\n  var start;\n  if(n <= 9){\n    start=1;\n  }\n  else if(n > 9 && n<= 99){\n    start=2;\n  }\n  else if(n > 99){\n    start=3;\n  }\n  \n  for (i=start;i<digits;i++)\n  {\n    s = s + \"0\";   \n  }\n  return s + n;\n}\n\nfunction formatDate(d){\nreturn  d.getFullYear() + \"-\" + \n        appendLeadingZeroes(d.getMonth() + 1,2) + \"-\" + \n        appendLeadingZeroes(d.getDate(),2) + \" \" + \n        appendLeadingZeroes(d.getHours(),2) + \":\" + \n        appendLeadingZeroes(d.getMinutes(),2) + \":\" + \n        appendLeadingZeroes(d.getSeconds(),2) + \".\" + \n        appendLeadingZeroes(d.getMilliseconds(),3);\n}\n\n//process a single data point instance\nvar processNode = function (rnode) {\n\n    if (rnode.timeCreated !== undefined)\n    {\n        if(isNaN(new Date(rnode.timeCreated).getTime()))\n            {rnode.Timestamp = new Date().toString(); }\n        else {rnode.Timestamp = rnode.timeCreated;}\n    }\n\n    rnode.time = new Date(rnode.Timestamp).getTime()*1000000;\n\nvar new_payload = [\n    {\n        measurement: \"TemperatureSensor\",\n        fields: {\n            MachineTemperature: rnode.machine.temperature,\n            MachinePressure: rnode.machine.pressure,\n            AmbientTemperature: rnode.ambient.temperature,\n            AmbientHumidity: rnode.ambient.humidity\n        },\n        tags:{\n            Source: \"TemperatureSensor\"\n        },\n        timestamp: rnode.time\n    }\n];\n\nreturn new_payload;\n}\n\n//main\nvar newnode = processNode(msg.payload);\nmsg.payload = newnode;\nreturn msg;\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 200,
+        "wires": [
+            [
+                "086d6feae4a86b9a",
+                "923f89330e3cf20b",
+                "10ddfd0ce2404d73"
+            ]
+        ]
+    },
+    {
+        "id": "e581a7a2.8c8f78",
+        "type": "debug",
+        "z": "9e0862f4.a82c9",
+        "name": "Input msg",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 260,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "086d6feae4a86b9a",
+        "type": "debug",
+        "z": "9e0862f4.a82c9",
+        "name": "Json",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 470,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "923f89330e3cf20b",
+        "type": "influxdb batch",
+        "z": "9e0862f4.a82c9",
+        "influxdb": "7653546a1903cf19",
+        "precision": "",
+        "retentionPolicy": "",
+        "name": "Write to Temperatures DB",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "organisation",
+        "bucket": "bucket",
+        "x": 590,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "10ddfd0ce2404d73",
+        "type": "moduleoutput",
+        "z": "9e0862f4.a82c9",
+        "client": "ad0fb0dd.c701d",
+        "output": "output1",
+        "x": 590,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "ad0fb0dd.c701d",
+        "type": "edgeclient"
+    },
+    {
+        "id": "7653546a1903cf19",
+        "type": "influxdb",
+        "hostname": "influxdb",
+        "port": "8086",
+        "protocol": "http",
+        "database": "telemetry",
+        "name": "",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "1.x",
+        "url": "http://localhost:8086",
+        "rejectUnauthorized": true
+    }
+]

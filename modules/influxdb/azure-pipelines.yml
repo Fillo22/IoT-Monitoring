@@ -1,0 +1,21 @@
+trigger:
+  branches:
+    include:
+    - master
+  paths:
+    include:
+    - modules/influxdb/*
+    - templates/azure-pipelines-module-build.yml
+
+pr:
+  autoCancel: true
+
+jobs:
+- template: ../../templates/azure-pipelines-module-build.yml
+  parameters:
+    registryName: $(CONTAINER_REGISTRY_NAME)
+    repositoryName: offline-dashboarding
+    imageName: influxdb
+    variableGroupName: edge-deployment-settings
+    workingDirectory: ./modules/influxdb
+    azureSubscription: $(azureSubscription)
