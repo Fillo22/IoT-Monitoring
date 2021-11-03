@@ -73,7 +73,7 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
         private void Init()
         {
             _ProducerClient = new EventHubProducerClient(_Options.ConnectionString, _Options.EventHubName);
-            _Timer.Elapsed += ClearBacklog;
+            _Timer.Elapsed += ClearBacklogOnTimer;
             _Timer.AutoReset = true;
             _Timer.Enabled = true;
         }
