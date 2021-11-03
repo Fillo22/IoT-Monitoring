@@ -51,17 +51,16 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
             if (token.IsCancellationRequested)
             {
                 _Logger.LogWarning("cancellation requested!");
-                foreach (var keyValuePair in _EventBatches)
-                {
-                    await _ProducerClient.SendAsync(keyValuePair.Value);
-                    _EventBatches.Remove(keyValuePair.Key);
-                }
+                ClearBacklog();
                 await CloseClient();
             }
             
         }
 
-        private async void ClearBacklog(Object source, ElapsedEventArgs e)
+        private void ClearBacklogOnTimer(Object source, ElapsedEventArgs e)
+            => ClearBacklog();
+
+        private async void ClearBacklog()
         {
             _Logger.LogWarning("Clearing backlog...");
             foreach (var keyValuePair in _EventBatches)
