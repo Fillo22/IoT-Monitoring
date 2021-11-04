@@ -1,0 +1,37 @@
+.create function
+ with (docstring = 'used to separate asset metrics from raw data', folder = 'UpdatePolicyFunctions')
+ ExtractAssetsMetrics()  
+{
+    RawTelemetry
+    | where tostring(Data.measurement) == 'DeviceData'
+    | summarize arg_max(ingestion_time(), *)
+    | extend ItemCountGood = toint(Data.fields.ITEM_COUNT_GOOD), ItemCountBad = toint(Data.fields.ITEM_COUNT_BAD), Source = tostring(Data.tags.Source)
+    | project-keep PartitionKey, SerialNumber, MessageType, Date, ItemCountGood, ItemCountBad,Source, Message
+    | project-reorder PartitionKey, SerialNumber, MessageType, Date, ItemCountGood, ItemCountBad,Source, Message
+}
+
+
+.create function
+ with (docstring = 'used to separate telemetry from raw data', folder = 'UpdatePolicyFunctions')
+ ExtractTemperature()  
+{
+    RawTelemetry
+    | where tostring(Data.measurement) == 'TemperatureSensor'
+    | summarize arg_max(ingestion_time(), *)
+    | extend MachineTemperature = todecimal(Data.fields.MachineTemperature), MachinePressure = todecimal(Data.fields.MachinePressure), 
+        AmbientTemperature = todecimal(Data.fields.AmbientTemperature), AmbientHumidity = toint(Data.fields.AmbientHumidity)
+    | project-keep PartitionKey, SerialNumber, MessageType, Date, MachineTemperature, MachinePressure, AmbientTemperature, AmbientHumidity, Message
+    | project-reorder PartitionKey, SerialNumber, MessageType, Date, MachineTemperature, MachinePressure, AmbientTemperature, AmbientHumidity, Message
+}
+
+.create table AssetTelemetry (PartitionKey: string, SerialNumber: string, MessageType: string, Date: datetime, ItemCountGood: int, ItemCountBad: int, Source: string, Message:dynamic)
+
+.create table TemperatureTelemetry (PartitionKey: string, SerialNumber: string, MessageType: string, Date: datetime, MachineTemperature: decimal,
+    MachinePressure: decimal, AmbientTemperature: decimal, AmbientHumidity: int, Message:dynamic)
+
+.alter table  AssetTelemetry policy update 
+@'[{ "IsEnabled": true, "Source": "RawTelemetry", "Query": "ExtractAssetsMetrics()", "IsTransactional": true, "PropagateIngestionProperties": false}]'
+
+.alter table TemperatureTelemetry policy update 
+@'[{ "IsEnabled": true, "Source": "RawTelemetry", "Query": "ExtractTemperature()", "IsTransactional": true, "PropagateIngestionProperties": false}]'
+
