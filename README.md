@@ -367,7 +367,7 @@ curl http://{ip-address}:9100/metrics
 
 Verify that the IoT Edge modules are indeed running by viewing the running Grafana dashboard. To do that, replace the `{ip-address}` in the following link with your own IotEdge device ip address and open the URL with a web browser:
 
-```http
+```
 http://{ip-address}:3000/
 ```
 
@@ -386,7 +386,7 @@ Feel free to explore the other dashboards available.
 
 Replace the `{ip-address}` in the following link with your own IotEdge device ip address and open the URLs with a web browser:
 
-```http
+```
 http://{ip-address}:1881/
 http://{ip-address}:1882/
 ```
