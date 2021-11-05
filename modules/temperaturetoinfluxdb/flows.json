@@ -1,30 +1,31 @@
 [
     {
-        "id": "9e0862f4.a82c9",
+        "id": "b596c15b62920de2",
         "type": "tab",
-        "label": "Azure IoT Edge",
+        "label": "flowTemperatureToInflux",
         "disabled": false,
-        "info": ""
+        "info": "",
+        "env": []
     },
     {
-        "id": "60a82287.44320c",
+        "id": "731f11efad151bba",
         "type": "moduleinput",
-        "z": "9e0862f4.a82c9",
+        "z": "b596c15b62920de2",
         "client": "ad0fb0dd.c701d",
         "input": "input1",
-        "x": 110,
-        "y": 200,
+        "x": 150,
+        "y": 140,
         "wires": [
             [
-                "e581a7a2.8c8f78",
-                "c3effbe1.9672e8"
+                "a3c9506355860569",
+                "51b1daf6ebe55a4d"
             ]
         ]
     },
     {
-        "id": "c3effbe1.9672e8",
+        "id": "51b1daf6ebe55a4d",
         "type": "function",
-        "z": "9e0862f4.a82c9",
+        "z": "b596c15b62920de2",
         "name": "Enricher",
         "func": "//type checking\nvar getType = function (elem) {\n    return Object.prototype.toString.call(elem).slice(8, -1);\n};\n\nfunction appendLeadingZeroes(n,digits){\n  var s=\"\";\n  var start;\n  if(n <= 9){\n    start=1;\n  }\n  else if(n > 9 && n<= 99){\n    start=2;\n  }\n  else if(n > 99){\n    start=3;\n  }\n  \n  for (i=start;i<digits;i++)\n  {\n    s = s + \"0\";   \n  }\n  return s + n;\n}\n\nfunction formatDate(d){\nreturn  d.getFullYear() + \"-\" + \n        appendLeadingZeroes(d.getMonth() + 1,2) + \"-\" + \n        appendLeadingZeroes(d.getDate(),2) + \" \" + \n        appendLeadingZeroes(d.getHours(),2) + \":\" + \n        appendLeadingZeroes(d.getMinutes(),2) + \":\" + \n        appendLeadingZeroes(d.getSeconds(),2) + \".\" + \n        appendLeadingZeroes(d.getMilliseconds(),3);\n}\n\n//process a single data point instance\nvar processNode = function (rnode) {\n\n    if (rnode.timeCreated !== undefined)\n    {\n        if(isNaN(new Date(rnode.timeCreated).getTime()))\n            {rnode.Timestamp = new Date().toString(); }\n        else {rnode.Timestamp = rnode.timeCreated;}\n    }\n\n    rnode.time = new Date(rnode.Timestamp).getTime()*1000000;\n\nvar new_payload = [\n    {\n        measurement: \"TemperatureSensor\",\n        fields: {\n            MachineTemperature: rnode.machine.temperature,\n            MachinePressure: rnode.machine.pressure,\n            AmbientTemperature: rnode.ambient.temperature,\n            AmbientHumidity: rnode.ambient.humidity\n        },\n        tags:{\n            Source: \"TemperatureSensor\"\n        },\n        timestamp: rnode.time\n    }\n];\n\nreturn new_payload;\n}\n\n//main\nvar newnode = processNode(msg.payload);\nmsg.payload = newnode;\nreturn msg;\n\n",
         "outputs": 1,
@@ -32,21 +33,21 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 360,
-        "y": 200,
+        "x": 380,
+        "y": 140,
         "wires": [
             [
-                "086d6feae4a86b9a",
-                "923f89330e3cf20b",
-                "10ddfd0ce2404d73"
+                "f036322114526acc",
+                "0b380175561ed5fe",
+                "8b46af7da4ab1e2e"
             ]
         ]
     },
     {
-        "id": "e581a7a2.8c8f78",
+        "id": "a3c9506355860569",
         "type": "debug",
-        "z": "9e0862f4.a82c9",
-        "name": "Input msg",
+        "z": "b596c15b62920de2",
+        "name": "msg.payload",
         "active": false,
         "tosidebar": true,
         "console": false,
@@ -55,15 +56,15 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 260,
-        "y": 300,
+        "x": 390,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "086d6feae4a86b9a",
+        "id": "f036322114526acc",
         "type": "debug",
-        "z": "9e0862f4.a82c9",
-        "name": "Json",
+        "z": "b596c15b62920de2",
+        "name": "msg.payload",
         "active": false,
         "tosidebar": true,
         "console": false,
@@ -72,35 +73,35 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 470,
-        "y": 300,
+        "x": 630,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "923f89330e3cf20b",
+        "id": "0b380175561ed5fe",
         "type": "influxdb batch",
-        "z": "9e0862f4.a82c9",
+        "z": "b596c15b62920de2",
         "influxdb": "7653546a1903cf19",
         "precision": "",
         "retentionPolicy": "",
-        "name": "Write to Temperatures DB",
+        "name": "Write to Telemetry DB",
         "database": "database",
         "precisionV18FluxV20": "ms",
         "retentionPolicyV18Flux": "",
         "org": "organisation",
         "bucket": "bucket",
-        "x": 590,
-        "y": 200,
+        "x": 660,
+        "y": 140,
         "wires": []
     },
     {
-        "id": "10ddfd0ce2404d73",
+        "id": "8b46af7da4ab1e2e",
         "type": "moduleoutput",
-        "z": "9e0862f4.a82c9",
+        "z": "b596c15b62920de2",
         "client": "ad0fb0dd.c701d",
         "output": "output1",
-        "x": 590,
-        "y": 120,
+        "x": 670,
+        "y": 60,
         "wires": []
     },
     {
