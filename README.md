@@ -140,7 +140,7 @@ Click the "Add" button to complete the creation of the module for it to be deplo
 
 **Module grafana:**
 
-```json
+```
 IoT Edge Module Name: grafana
 Image URI: {registry}/grafana:1.0
 Environment Variable:
@@ -162,7 +162,7 @@ Container Create Options:
 
 **Module influxdb:**
 
-```json
+```
 IoT Edge Module Name: influxdb
 Image URI: {registry}/influxdb:1.0
 Container Create Options:
@@ -184,7 +184,7 @@ Container Create Options:
 
 **Module opcpublisher:**
 
-```json
+```
 IoT Edge Module Name: opcpublisher
 Image URI: {registry}/opcpublisher:1.0
 Container Create Options:
@@ -199,7 +199,7 @@ Container Create Options:
 
 **Module opcsimulator:**
 
-```json
+```
 IoT Edge Module Name: opcsimulator
 Image URI: {registry}/opcsimulator:1.0
 Container Create Options:
@@ -218,14 +218,14 @@ Container Create Options:
 
 **Module prometheus:**
 
-```json
+```
 IoT Edge Module Name: prometheus
 Image URI: {registry}/prometheus:1.0
 ```
 
 **Module temperaturetoinfluxdb:**
 
-```json
+```
 IoT Edge Module Name: temperaturetoinfluxdb
 Image URI: {registry}/temperaturetoinfluxdb:1.0
 Container Create Options:
@@ -244,7 +244,7 @@ Container Create Options:
 
 **Module SimulatedTemperatureSensor:**
 
-```json
+```
 IoT Edge Module Name: SimulatedTemperatureSensor
 Image URI: mcr.microsoft.com/azureiotedge-simulated-temperature-sensor:1.0
 Environment Variable:
@@ -259,7 +259,7 @@ Module Twin Settings:
 
 **Module AzureMonitor:**
 
-```json
+```
 IoT Edge Module Name: AzureMonitor
 Image URI: mcr.microsoft.com/azureiotedge-metrics-collector
 Environment Variable:
