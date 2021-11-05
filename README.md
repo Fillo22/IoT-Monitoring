@@ -464,5 +464,5 @@ These modules collect data (respectively from edgeHub message bus and the Temper
 	"_msgid": "4540a94f3230ec88"
 }
 ```
-This message are written into InfluxDB and sent to IoT Hub.
+These messages are written into InfluxDB and sent to IoT Hub.
 
