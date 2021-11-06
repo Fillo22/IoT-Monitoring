@@ -1,7 +1,26 @@
 # IoT-Monitoring
-[TOC]
+
+- [IoT-Monitoring](#iot-monitoring)
+  - [Description](#description)
+    - [Requirements](#requirements)
+  - [Architecture](#architecture)
+    - [Schema](#schema)
+    - [Reasons for selecting this architecture](#reasons-for-selecting-this-architecture)
+      - [Storage component](#storage-component)
+      - [Visualization component](#visualization-component)
+      - [Integration component](#integration-component)
+  - [Building Edge module images](#building-edge-module-images)
+  - [Deploying Edge modules](#deploying-edge-modules)
+    - [Adding the Edge modules](#adding-the-edge-modules)
+    - [Adding the routes](#adding-the-routes)
+    - [Deploying modules to devices](#deploying-modules-to-devices)
+  - [Prometheus node exporter](#prometheus-node-exporter)
+    - [Node Exporter Setup](#node-exporter-setup)
+  - [View the Grafana dashboard](#view-the-grafana-dashboard)
+  - [View the Node red flow](#view-the-node-red-flow)
 
 ## Description
+
 ### Requirements
 ## Architecture
 ### Schema 
