@@ -15,10 +15,9 @@
 3. Azure Function IoT Hub triggered, performs data normalization and sends messages to Event Hub partitioned by DeviceID
 4. Azure Data Explorer ingest data from Event Hub and maps them to RawTelemetry table.
    
-Then the data are divided into two tables:
+    Then the data are divided into two tables used later for dashboarding and data analysis:
     * AssetTelemetry: Opc Ua Simulator data
     * TemperatureTelemetry: Temperature Simulator data
-These tables are used for dashboards
 
 5. The [metrics-collector module](https://aka.ms/edgemon-metrics-collector) is a Microsoft-supplied IoT Edge module that collects workload module metrics and send them to Log Analytics.
 
