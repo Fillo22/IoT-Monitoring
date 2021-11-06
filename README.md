@@ -6,23 +6,25 @@
 ## Architecture
 ### Schema 
 ![](media/Diagram%20v.2.6.png)
-* **1a** The [OPC-UA Publisher](https://github.com/Azure/iot-edge-opc-publisher) module provided by Microsoft's Industrial IoT team, reads OPC-UA data from the simulator and writes it to IoT Edge (via edgeHub)
-* **1b** Temperature Simulator periodically generates fake temperature, pressure and humidity data
-* **2** Node-RED modules collects data from OPC Publisher (via edgeHub) and Temperature simulator and writes that data into:
-    * **2a** InfluxDB which stores data in time series structure and provides this data to Grafana for dashboards
-    * **2b** IoT Hub via EdgeHub
-* **3** Azure Function triggered by IoT Hub, performs data normalization and sends them to Event Hub partitioned by DeviceID
-* **4** Azure Data Explorer ingest data from Event Hub and map them to RawTelemetry table.
+1. Data generation
+    A. The [OPC-UA Publisher](https://github.com/Azure/iot-edge-opc-publisher) module provided by Microsoft's Industrial IoT team, reads OPC-UA data from the simulator and publish it to IoT Edge (via edgeHub)
+    B. Temperature Simulator periodically generates fake temperature, pressure and humidity data
+2. Node-RED modules collects data from OPC Publisher (via edgeHub) and Temperature simulator and:
+    A. writes them into InfluxDB which stores data in time series structure and provides it to Grafana for dashboarding
+    B. Sends them to IoT Hub via EdgeHub
+3. Azure Function IoT Hub triggered, performs data normalization and sends messages to Event Hub partitioned by DeviceID
+4. Azure Data Explorer ingest data from Event Hub and maps them to RawTelemetry table.
+   
 Then the data are divided into two tables:
     * AssetTelemetry: Opc Ua Simulator data
     * TemperatureTelemetry: Temperature Simulator data
 
     These tables are used for dashboards
-* **5** The [metrics-collector module](https://aka.ms/edgemon-metrics-collector) is a Microsoft-supplied IoT Edge module that collects workload module metrics and send them to Log Analytics.
+5. The [metrics-collector module](https://aka.ms/edgemon-metrics-collector) is a Microsoft-supplied IoT Edge module that collects workload module metrics and send them to Log Analytics.
 
 ### Reasons for selecting this architecture
 
-The main purpose of this solution is to provide an ability for local operators to view dashboards at the edge regardless of whether the edge device was online or offline. This is a natural scenario that IoT Edge supports. To support dashboarding however, there was a need to also select both a storage component as well as a visualization component. 
+The main purpose of this solution is to provide an ability for local operators to view dashboards at the edge regardless of device connectivity. To support dashboarding however, there was a need to also select both a storage component as well as a visualization component. 
 
 #### Storage component
 
@@ -310,7 +312,7 @@ Prometheus is an open source metrics database and monitoring system, it collects
 Many systems do not have Prometheus formatted. For example a Raspberry Pi running Raspbian does not have a Prometheus metrics endpoint. This is where the node exporter comes in. The node exporter is an agent. It exposes your host’s metrics in the format Prometheus expects.
 
 ### Node Exporter Setup
-Download the release of node exporter specif for the architecture of your device on [projects releases page](https://github.com/prometheus/node_exporter/releases) on Github.
+Download the release of node exporter specific for the architecture of your device on [projects releases page](https://github.com/prometheus/node_exporter/releases) on Github.
 
 ```bash
 wget https://github.com/prometheus/node_exporter/releases/download/v1.2.2/node_exporter-1.2.2.linux-amd64.tar.gz
