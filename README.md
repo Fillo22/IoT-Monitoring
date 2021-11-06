@@ -7,19 +7,19 @@
 ### Schema 
 ![](media/Diagram%20v.2.6.png)
 1. Data generation
-    A. The [OPC-UA Publisher](https://github.com/Azure/iot-edge-opc-publisher) module provided by Microsoft's Industrial IoT team, reads OPC-UA data from the simulator and publish it to IoT Edge (via edgeHub)
-    B. Temperature Simulator periodically generates fake temperature, pressure and humidity data
+    (A) The [OPC-UA Publisher](https://github.com/Azure/iot-edge-opc-publisher) module provided by Microsoft's Industrial IoT team, reads OPC-UA data from the simulator and publish it to IoT Edge (via edgeHub)
+    (B) Temperature Simulator periodically generates fake temperature, pressure and humidity data
 2. Node-RED modules collects data from OPC Publisher (via edgeHub) and Temperature simulator and:
-    A. writes them into InfluxDB which stores data in time series structure and provides it to Grafana for dashboarding
-    B. Sends them to IoT Hub via EdgeHub
+    (A) writes them into InfluxDB which stores data in time series structure and provides it to Grafana for dashboarding
+    (B) Sends them to IoT Hub via EdgeHub
 3. Azure Function IoT Hub triggered, performs data normalization and sends messages to Event Hub partitioned by DeviceID
 4. Azure Data Explorer ingest data from Event Hub and maps them to RawTelemetry table.
    
 Then the data are divided into two tables:
     * AssetTelemetry: Opc Ua Simulator data
     * TemperatureTelemetry: Temperature Simulator data
+These tables are used for dashboards
 
-    These tables are used for dashboards
 5. The [metrics-collector module](https://aka.ms/edgemon-metrics-collector) is a Microsoft-supplied IoT Edge module that collects workload module metrics and send them to Log Analytics.
 
 ### Reasons for selecting this architecture
