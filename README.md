@@ -77,11 +77,11 @@ Node-RED was chosen as the tool to ease integration between IoT Edge and InfluxD
 
 ## Build IoT Edge modules
 
-Refer to the Modules build instructions [here](fillo22/IoT-Monitoring/modules/Build.md)
+Refer to the Modules build instructions [here](modules/Build.md)
 
 ## Prometheus Node Exporter installation
 
-Refer to the [Prometheus Node Exporter](fillo22/IoT-Monitoring/../../PrometheusExporterSetup.md) for installation instructions.
+Refer to the [Prometheus Node Exporter](./PrometheusExporterSetup.md) for installation instructions.
 
 ## View the Grafana dashboard
 
