@@ -38,7 +38,8 @@ sudo docker build --tag {registry}/temperaturetoinfluxdb:1.0 .
 sudo docker push {registry}/temperaturetoinfluxdb:1.0
 ```
 
-Replace the `{ip-address}` in IoT-Monitoring/modules/prometheus/prometheus.yml with your own IotEdge device ip address.
+## Prometheus configuration
+Replace the `{ip-address}` in IoT-Monitoring/modules/prometheus/prometheus.yml with your own IotEdge device ip address. This is the IP address of the IoT Edge device where the Prometheus Node exporter is running.
 
 ```
 scrape_configs:

@@ -3,6 +3,14 @@
 
 - [Deploying Edge modules](#deploying-edge-modules)
     - [Adding the Edge modules](#adding-the-edge-modules)
+      - [edgetoinfluxdb](#edgetoinfluxdb)
+      - [Grafana](#grafana)
+      - [InfluxDB](#influxdb)
+      - [OpcPublisher](#opcpublisher)
+      - [OpcSimulator](#opcsimulator)
+      - [Prometheus](#prometheus)
+      - [Simulated Temperature Sensor](#simulated-temperature-sensor)
+      - [Azure Monitor](#azure-monitor)
     - [Adding the routes](#adding-the-routes)
     - [Apply the changes](#apply-the-changes)
 
@@ -11,6 +19,8 @@ All seven module images should now be in a container registry. Instances of thes
 Navigate to the desired IoT Hub instance in the Azure portal and select "IoT Edge". All registered Edge devices should be visible. Click on the desired Edge device and click "Set Modules." In the "Container Registry Credentials", put the name, address, user name and password of the registry container used when [building the Edge module images](#building-edge-module-images).
 
 ### Adding the Edge modules
+
+#### edgetoinfluxdb
 
 In the "IoT Edge Modules" section, click the "+ Add" button and select "IoT Edge Module". For "IoT Edge Module Name" enter `"edgetoinfluxdb"` and for "Image URI" enter `"{registry}/edgetoinfluxdb:1.0"`. Be sure to replace `{registry}` with the registry address defined above. Switch to the "Container Create Options" and place the following JSON into the create options field:
 
@@ -30,7 +40,7 @@ In the "IoT Edge Modules" section, click the "+ Add" button and select "IoT Edge
 
 Click the "Add" button to complete the creation of the module for it to be deployed. This needs to be repeated for all other six remaining modules plus the two modules provided by Microsoft (Simulated Temperature Sensor and Azure Monitor). The following are the property values for each module.  Note: the variable `{GF_SECURITY_ADMIN_PASSWORD}` represents the admin password that you will use to log into the Grafana dashboards once deployment is complete.
 
-**Module grafana:**
+#### Grafana
 
 ```
 IoT Edge Module Name: grafana
@@ -52,7 +62,7 @@ Container Create Options:
 }
 ```
 
-**Module influxdb:**
+#### InfluxDB
 
 ```
 IoT Edge Module Name: influxdb
@@ -74,7 +84,7 @@ Container Create Options:
 }
 ```
 
-**Module opcpublisher:**
+#### OpcPublisher
 
 ```
 IoT Edge Module Name: opcpublisher
@@ -89,7 +99,7 @@ Container Create Options:
 }
 ```
 
-**Module opcsimulator:**
+#### OpcSimulator
 
 ```
 IoT Edge Module Name: opcsimulator
@@ -108,7 +118,7 @@ Container Create Options:
 }
 ```
 
-**Module prometheus:**
+#### Prometheus
 
 ```
 IoT Edge Module Name: prometheus
@@ -134,7 +144,7 @@ Container Create Options:
 }
 ```
 
-**Module SimulatedTemperatureSensor:**
+#### Simulated Temperature Sensor
 
 ```
 IoT Edge Module Name: SimulatedTemperatureSensor
@@ -149,7 +159,7 @@ Module Twin Settings:
 }
 ```
 
-**Module AzureMonitor:**
+#### Azure Monitor
 
 ```
 IoT Edge Module Name: AzureMonitor
