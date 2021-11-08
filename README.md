@@ -105,7 +105,7 @@ Login to Grafana using "admin" as user name and the password specified in the "G
 
 Hover over the dashboard icon in the left side panel and click "Manage." There should be three dashboards under the General folder. Click on the "Node Exporter Full" dashboard to get started. The resulting dashboard should look like below:
 
-
+![](media/GrafanaDashboard.png)
 
 > [!NOTE]
 > It may take upwards of 10 minutes for all graphs to show correctly since they rely on a history of data.
@@ -124,7 +124,11 @@ http://{ip-address}:1882/
 Login to Node red using "admin" as user name and "mypassword" as password.
 
 The flow relative to port 1881 corresponds to the module edgetoinfluxdb and port 1882 corresponds to the module temperaturetoinfluxdb.
-These modules collect data (respectively from edgeHub message bus and the Temperature Simulator) and enrich them. The output of the Enricher functions are the following:
+These modules collect data (respectively from edgeHub message bus and the Temperature Simulator) and enrich them. 
+
+![](media/NodeRedFlow.png)
+
+The output of the Enricher functions are the following:
 
 * edgetoinfluxdb: an array of 4 elements
 ```json
