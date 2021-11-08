@@ -13,6 +13,7 @@
   - [Deploy IoT Edge modules](#deploy-iot-edge-modules)
   - [Prometheus Node Exporter installation](#prometheus-node-exporter-installation)
   - [Azure Data Explorer Setup](#azure-data-explorer-setup)
+  - [Azure Function for data rectification](#azure-function-for-data-rectification)
   - [View the Grafana dashboard](#view-the-grafana-dashboard)
   - [View the Node red flow](#view-the-node-red-flow)
 
@@ -87,11 +88,15 @@ Refer to the Modules deploy instructions [here](modules/Deploy.md)
 
 ## Prometheus Node Exporter installation
 
-Refer to the [Prometheus Node Exporter](./PrometheusExporterSetup.md) for installation instructions.
+Refer to the [Prometheus Node Exporter](./PrometheusExporterSetup.md) documentation for installation instructions.
 
 ## Azure Data Explorer Setup
 
-Refer to the [Azure Data Explorer](./ADXSetup.md) for setup instructions.
+Refer to the [Azure Data Explorer](./ADXSetup.md) documentation for setup instructions.
+
+## Azure Function for data rectification
+
+Refer to the [Azure Function](./IoTMonitoring.Functions.Normalization/README.md) documentation for a deep dive explanation.
 
 ## View the Grafana dashboard
 
