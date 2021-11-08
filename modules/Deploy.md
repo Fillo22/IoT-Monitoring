@@ -180,7 +180,7 @@ Note: the variable `{ResourceID}` represents resource ID of the IoT hub that the
 
 The "Set modules" dialog should now look like this:
 
-
+![](../media/SetModules.png)
 ### Adding the routes
 
 Next, click on the "Routes" tab and add the following routes:
@@ -201,7 +201,8 @@ FROM /messages/modules/SimulatedTemperatureSensor/* INTO BrokeredEndpoint("/modu
 ```bash
 FROM /messages/modules/opcpublisher/* INTO BrokeredEndpoint("/modules/edgetoinfluxdb/inputs/input1")
 ```
-
+![](../media/Routes.png)
 ### Apply the changes
 
 Click the "Review + Create" button and then select the "Create" button. This will start the deployment. Assuming all goes well the modules will be running after several minutes. The "IoT Edge Runtime Response" should be "200 -- Ok" and the module runtime status "running".
+![](../media/Modules.png)
