@@ -10,7 +10,9 @@
       - [Visualization component](#visualization-component)
       - [Integration component](#integration-component)
   - [Build IoT Edge modules](#build-iot-edge-modules)
+  - [Deploy IoT Edge modules](#deploy-iot-edge-modules)
   - [Prometheus Node Exporter installation](#prometheus-node-exporter-installation)
+  - [Azure Data Explorer Setup](#azure-data-explorer-setup)
   - [View the Grafana dashboard](#view-the-grafana-dashboard)
   - [View the Node red flow](#view-the-node-red-flow)
 
@@ -79,9 +81,17 @@ Node-RED was chosen as the tool to ease integration between IoT Edge and InfluxD
 
 Refer to the Modules build instructions [here](modules/Build.md)
 
+## Deploy IoT Edge modules
+
+Refer to the Modules deploy instructions [here](modules/Deploy.md)
+
 ## Prometheus Node Exporter installation
 
 Refer to the [Prometheus Node Exporter](./PrometheusExporterSetup.md) for installation instructions.
+
+## Azure Data Explorer Setup
+
+Refer to the [Azure Data Explorer](./ADXSetup.md) for setup instructions.
 
 ## View the Grafana dashboard
 
