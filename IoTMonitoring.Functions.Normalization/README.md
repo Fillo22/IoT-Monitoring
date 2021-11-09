@@ -20,18 +20,97 @@ By default, the data coming from the sensors are formatted as follows:
 ### Temperature:
 
 ```json
+{
+  "body": [
+    {
+      "measurement": "TemperatureSensor",
+      "fields": {
+        "MachineTemperature": 28.685982673631973,
+        "MachinePressure": 1.8756182792745286,
+        "AmbientTemperature": 20.933404935260025,
+        "AmbientHumidity": 26
+      },
+      "tags": {
+        "Source": "TemperatureSensor"
+      },
+      "timestamp": 1636381653890000000
+    }
+  ],
+  "enqueuedTime": "Mon Nov 08 2021 15:27:55 GMT+0100 (Central European Standard Time)",
+  "properties": {}
+}
 
 ```
 
 ### Assets:
 
 ```json
-
+{
+  "body": [
+    {
+      "measurement": "DeviceData",
+      "fields": {
+        "ITEM_COUNT_GOOD": 110
+      },
+      "tags": {
+        "Source": "urn:e2b3e0043117:OPC-Site-01"
+      },
+      "timestamp": 1636451185855000000
+    },
+    {
+      "measurement": "DeviceData",
+      "fields": {
+        "ITEM_COUNT_BAD": 10
+      },
+      "tags": {
+        "Source": "urn:e2b3e0043117:OPC-Site-01"
+      },
+      "timestamp": 1636451185855000000
+    },
+    {
+      "measurement": "DeviceData",
+      "fields": {
+        "ITEM_COUNT_GOOD": 101
+      },
+      "tags": {
+        "Source": "urn:e2b3e0043117:OPC-Site-01"
+      },
+      "timestamp": 1636451190858000000
+    },
+    {
+      "measurement": "DeviceData",
+      "fields": {
+        "ITEM_COUNT_BAD": 2
+      },
+      "tags": {
+        "Source": "urn:e2b3e0043117:OPC-Site-01"
+      },
+      "timestamp": 1636451190858000000
+    }
+  ],
+  "enqueuedTime": "Tue Nov 09 2021 10:46:35 GMT+0100 (Central European Standard Time)"
+}
 ```
 
 What the function does is to convert the data to the following format, basically adding a common header and insert all the content inside a specific property called "data":
 ```json
-
+{
+  "date": "2021-11-08T18:33:46.3763615Z",
+  "data": {
+    "machine": {
+      "temperature": 24.35758269303831,
+      "pressure": 1.3825094207258835
+    },
+    "ambient": {
+      "temperature": 21.175382869632628,
+      "humidity": 24
+    },
+    "timeCreated": "2021-11-02T08:17:42.9444227Z"
+  },
+  "pk": "Berry",
+  "sn": "Berry",
+  "mt": "tel"
+}
 ```
 
 ## Requirements
