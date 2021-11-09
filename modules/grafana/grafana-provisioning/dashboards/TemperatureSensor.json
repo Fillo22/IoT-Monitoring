@@ -22,7 +22,7 @@
   "fiscalYearStartMonth": 0,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 6,
+  "id": 4,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -482,7 +482,7 @@
           "groupBy": [
             {
               "params": [
-                "$__interval"
+                "10s"
               ],
               "type": "time"
             },
@@ -504,7 +504,7 @@
             [
               {
                 "params": [
-                  "MachineTemperature"
+                  "AmbientTemperature"
                 ],
                 "type": "field"
               },
@@ -870,12 +870,12 @@
     "list": []
   },
   "time": {
-    "from": "2021-11-04T01:00:56.571Z",
-    "to": "2021-11-04T13:00:56.573Z"
+    "from": "now-5m",
+    "to": "now"
   },
   "timepicker": {},
   "timezone": "",
   "title": "Temperature",
-  "uid": "zP-sP-Zgk",
-  "version": 2
+  "uid": "zP-sP-Zgke",
+  "version": 1
 }
