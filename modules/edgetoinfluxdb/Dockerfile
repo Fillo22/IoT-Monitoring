@@ -1,8 +1,7 @@
 # Start with upstream node-red
 FROM nodered/node-red
 
-# Copy package.json to the WORKDIR so npm builds all
-# of your added modules for Node-RED
+# Copy package.json to the WORKDIR so npm builds all of your added modules for Node-RED
 RUN npm install node-red-contrib-influxdb
 RUN npm install node-red-contrib-azure-iot-edge-kpm
 
