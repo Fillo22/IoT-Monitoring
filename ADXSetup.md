@@ -7,6 +7,7 @@ Azure Data Explorer supports several ingestion methods, each with its own target
 In this sample we use the Azure Pipeline for Event Hub, a pipeline that transfers events from services to Azure Data Explorer.
 
 ## Azure Data Explorer Setup
+### Create table
 Create a new empty table (all scripts are available in the following [folder](https://github.com/Fillo22/IoT-Monitoring/tree/main/Kusto))
 ```kql
 .create table RawTelemetry ( 
@@ -17,6 +18,7 @@ Date:datetime,
 Data:dynamic, 
 Message:dynamic  )
 ```
+### Data mappings
 Create an ingestion mapping associated to the format json and the table created previously
 ```kql
 .create-or-alter table RawTelemetry ingestion json mapping "RawTelemetryMapping"
@@ -29,11 +31,13 @@ Create an ingestion mapping associated to the format json and the table created 
 '    { "column" : "Message", "datatype" : "dynamic", "Properties":{"Path":"$"}}'
 ']'
 ```
+### Configure streaming ingestion
 Enable streaming ingestion on RawTelemetry table.
 Streaming ingestion is useful for loading data when you need low latency between ingestion and query
 ```kql
 .alter table RawTelemetry policy streamingingestion enable
 ```
+### Update policy
 Define two functions to separate asset metrics and telemetry from raw data
 ```kql
 .create function

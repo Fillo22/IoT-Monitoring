@@ -16,7 +16,7 @@
 
 All seven module images should now be in a container registry. Instances of these module images can now be deployed to an Edge machine using IoT Hub.
 
-Navigate to the desired IoT Hub instance in the Azure portal and select "IoT Edge". All registered Edge devices should be visible. Click on the desired Edge device and click "Set Modules." In the "Container Registry Credentials", put the name, address, user name and password of the registry container used when [building the Edge module images](#building-edge-module-images).
+Navigate to the desired IoT Hub instance in the Azure portal and select "IoT Edge". All registered Edge devices should be visible. Click on the desired Edge device and click "Set Modules." In the "Container Registry Credentials", put the name, address, user name and password of the registry container used when [building the Edge module images](./Build.md).
 
 ### Adding the Edge modules
 
@@ -38,7 +38,7 @@ In the "IoT Edge Modules" section, click the "+ Add" button and select "IoT Edge
 }
 ```
 
-Click the "Add" button to complete the creation of the module for it to be deployed. This needs to be repeated for all other six remaining modules plus the two modules provided by Microsoft (Simulated Temperature Sensor and Azure Monitor). The following are the property values for each module.  Note: the variable `{GF_SECURITY_ADMIN_PASSWORD}` represents the admin password that you will use to log into the Grafana dashboards once deployment is complete.
+Click the "Add" button to complete the creation of the module for it to be deployed. This needs to be repeated for all other six remaining modules plus the two modules provided by Microsoft (Simulated Temperature Sensor and Azure Monitor). The following are the property values for each module.  Note: the variable `GF_SECURITY_ADMIN_PASSWORD` represents the admin password that you will use to log into the Grafana dashboards once deployment is complete.
 
 #### Grafana
 
