@@ -35,7 +35,10 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier
             
             foreach (var item in messages)
             {
+                // Retrieve partition key from System Properties of the message
                 string partiotionKey = item.SystemProperties["iothub-connection-device-id"].ToString();
+                
+                // Check if the message is an array
                 if (Encoding.UTF8.GetString(item.EventBody).StartsWith("["))
                 {
                     var messageArray = JArray.Parse(Encoding.UTF8.GetString(item.EventBody)).ToObject<List<JObject>>();
@@ -53,6 +56,12 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier
             }
         }
 
+        /// <summary>
+        /// Take in input the current message and changes the structure to a common format
+        /// </summary>
+        /// <param name="input"></param>
+        /// <param name="partitionKey"></param>
+        /// <returns></returns>
         private JObject InsertStandardInfo(JObject input, string partitionKey)
         {
             input = _NormalizationService.Normalize(input);

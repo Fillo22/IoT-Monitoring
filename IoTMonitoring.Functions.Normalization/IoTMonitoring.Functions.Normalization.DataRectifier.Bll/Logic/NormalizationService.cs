@@ -17,6 +17,12 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
         {
             _Logger = logger;
         }
+
+        /// <summary>
+        /// Add datetime and put data inside a specific field
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public JObject Normalize(JObject input)
         {
             JObject output = new();

@@ -29,6 +29,13 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
             Init();
         }
 
+        /// <summary>
+        /// Send message to EventHub
+        /// </summary>
+        /// <param name="partitionKey"></param>
+        /// <param name="message"></param>
+        /// <param name="token"></param>
+        /// <returns></returns>
         public async Task SendMessageAsync(string partitionKey, JObject message, CancellationToken token)
         {
 
@@ -57,9 +64,17 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
             
         }
 
+        /// <summary>
+        /// Clear the backlog every time the timer occurs
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="e"></param>
         private void ClearBacklogOnTimer(Object source, ElapsedEventArgs e)
             => ClearBacklog();
 
+        /// <summary>
+        /// Clear the backlog, remove all the batches in the queue
+        /// </summary>
         private async void ClearBacklog()
         {
             _Logger.LogWarning("Clearing backlog...");
@@ -70,6 +85,9 @@ namespace IoTMonitoring.Functions.Normalization.DataRectifier.Bll.Logic
             }
         }
 
+        /// <summary>
+        /// Initialize che client and the timer
+        /// </summary>
         private void Init()
         {
             _ProducerClient = new EventHubProducerClient(_Options.ConnectionString, _Options.EventHubName);
